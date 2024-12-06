@@ -16,9 +16,20 @@ namespace So_BackPropogationNN
         NeuralNet nn;
         int nnType = 0;
         int inputCount = 2;
-        int[,] epochsPerClick = { { 600, 1200 }, { 50, 100 } };
-        int hiddenNeuronCountEz = 1;
-        int[,] hiddenNeuronCount = { {1, 2}, {1, 2} };
+
+        int[] hiddenNeuronCount = { 1, 1, 2 };
+        // [ inputCount-2 ], for inputs 2, 3 and 4
+        // 2 inputs => 4/10 = 0.4 ~> 1
+        // 3 inputs => 9/10 = 0.9 ~> 1
+        // 4 inputs => 16/10 = 1.6 ~> 2
+        
+        int[,] epochsPerClick = { { 720, 850 }, { 0, 0 }, { 1250, 1700 } };
+        // [ inputCount-2 , nnType ]
+        // { { 2in OR, 2in AND }, { 3in OR, 3in AND }, { 4in OR, 4in AND } }
+
+        int trainCount = 0;
+        double tempData = 0.0;
+
         public Form1()
         {
             InitializeComponent();
@@ -52,10 +63,9 @@ namespace So_BackPropogationNN
                     inputCount = 4;
                     break;
             }
-            
-            //nn = new NeuralNet(inputCount, hiddenNeuronCount[nnType, (int)numericUpDownInputCount.Value], 1);
-            nn = new NeuralNet(inputCount, hiddenNeuronCountEz, 1);
+
             // 2 inputs, (estimated) n hidden layers, 1 output
+            nn = new NeuralNet(inputCount, hiddenNeuronCount[nnType], 1);
             
             String s = "";
             switch (nnType)
@@ -67,11 +77,14 @@ namespace So_BackPropogationNN
                     s += "AND gate with";
                     break;
             }
-            textBoxInfo.Text = $"{s} {inputCount} inputs";
+            textBoxInfo.Text = $"{s} {inputCount} inputs ({hiddenNeuronCount[inputCount - 2]} hidden neurons)" + Environment.NewLine +
+                $"{epochsPerClick[inputCount - 2, nnType]} epochs";
 
             btnTest.Enabled = true;
             btnTrainNN.Enabled = true;
             textBoxOutput.Clear();
+            trainCount = 0;
+            btnTrainNN.Text = "Train";
         }
 
         private void btnTrainNN_Click(object sender, EventArgs e)
@@ -87,7 +100,7 @@ namespace So_BackPropogationNN
                     switch (inputCount)
                     {
                         case 2: // OR 2
-                            for (int x = 0; x < epochsPerClick[nnType, 0]; x++)
+                            for (int x = 0; x < epochsPerClick[inputCount - 2, nnType]; x++)
                             {
                                 nn.setInputs(0, 0.0);
                                 nn.setInputs(1, 0.0);
@@ -111,7 +124,7 @@ namespace So_BackPropogationNN
                             }
                             break;
                         case 4: // OR 4
-                            for (int x = 0; x < epochsPerClick[nnType, 1]; x++)
+                            for (int x = 0; x < epochsPerClick[inputCount - 2, nnType]; x++)
                             {
                                 nn.setInputs(0, 0.0);
                                 nn.setInputs(1, 0.0);
@@ -232,7 +245,7 @@ namespace So_BackPropogationNN
                     switch (inputCount)
                     {
                         case 2: // AND 2
-                            for (int x = 0; x < epochsPerClick[nnType, 0]; x++)
+                            for (int x = 0; x < epochsPerClick[inputCount - 2, nnType]; x++)
                             {
                                 nn.setInputs(0, 0.0);
                                 nn.setInputs(1, 0.0);
@@ -256,7 +269,7 @@ namespace So_BackPropogationNN
                             }
                             break;
                         case 4: // AND 4
-                            for (int x = 0; x < epochsPerClick[nnType, 1]; x++)
+                            for (int x = 0; x < epochsPerClick[inputCount - 2, nnType]; x++)
                             {
                                 nn.setInputs(0, 0.0);
                                 nn.setInputs(1, 0.0);
@@ -374,6 +387,8 @@ namespace So_BackPropogationNN
                     }
                     break;
             }
+            trainCount++;
+            btnTrainNN.Text = $"Train({trainCount})"; 
             
         }
 
@@ -403,7 +418,8 @@ namespace So_BackPropogationNN
             }
             nn.run();
 
-            textBoxOutput.Text = "" + nn.getOuputData(0);
+            tempData = nn.getOuputData(0);
+            textBoxOutput.Text = "" + tempData;
         }
 
         private void comboBoxNN_SelectedIndexChanged(object sender, EventArgs e)
@@ -429,6 +445,52 @@ namespace So_BackPropogationNN
             }
         }
 
+        private void btnAve_Click(object sender, EventArgs e)
+        {
+            double sum = 0;
+            double successSum = 0;
+            for (int i = 0; i < 1000; i++)
+            {
+                btnCreateBPNN_Click(sender, e);
+                btnTrainNN_Click(sender, e);
+                if (nnType == 0)
+                {
+                    textBoxInput1.Text = "" + 0;
+                    textBoxInput2.Text = "" + 0;
+                    textBoxInput3.Text = "" + 0;
+                    textBoxInput4.Text = "" + 0;
+                    btnTest_Click(sender, e);
+                    sum += tempData;
+                    if (tempData < .5)
+                    {
+                        successSum += 1;
+                    }
+                    else
+                    {
+                        successSum += 0;
+                    }
+                }
+                else
+                {
+                    textBoxInput1.Text = "" + 1;
+                    textBoxInput2.Text = "" + 1;
+                    textBoxInput3.Text = "" + 1;
+                    textBoxInput4.Text = "" + 1;
+                    btnTest_Click(sender, e);
+                    sum += tempData;
+                    if (tempData > .5)
+                    {
+                        successSum += 1;
+                    }
+                    else
+                    {
+                        successSum += 0;
+                    }
+                }
+            }
+            labelAve.Visible = true;
+            labelAve.Text = $"Ave: {sum/1000}, Success rate: {successSum/10}%";
 
+        }
     }
 }

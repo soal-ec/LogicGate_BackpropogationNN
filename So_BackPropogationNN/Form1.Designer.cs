@@ -50,6 +50,8 @@
             this.textBoxInput4 = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.labelOutput1 = new System.Windows.Forms.Label();
+            this.btnAve = new System.Windows.Forms.Button();
+            this.labelAve = new System.Windows.Forms.Label();
             this.flpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputCount)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
@@ -101,36 +103,36 @@
             // 
             // btnCreateBPNN
             // 
-            this.btnCreateBPNN.Location = new System.Drawing.Point(0, 108);
+            this.btnCreateBPNN.Location = new System.Drawing.Point(0, 128);
             this.btnCreateBPNN.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnCreateBPNN.Name = "btnCreateBPNN";
             this.btnCreateBPNN.Size = new System.Drawing.Size(252, 23);
             this.btnCreateBPNN.TabIndex = 4;
-            this.btnCreateBPNN.Text = "btnCreateBPNN";
+            this.btnCreateBPNN.Text = "Create BPNN";
             this.btnCreateBPNN.UseVisualStyleBackColor = true;
             this.btnCreateBPNN.Click += new System.EventHandler(this.btnCreateBPNN_Click);
             // 
             // btnTrainNN
             // 
             this.btnTrainNN.Enabled = false;
-            this.btnTrainNN.Location = new System.Drawing.Point(0, 305);
+            this.btnTrainNN.Location = new System.Drawing.Point(0, 325);
             this.btnTrainNN.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnTrainNN.Name = "btnTrainNN";
             this.btnTrainNN.Size = new System.Drawing.Size(252, 23);
             this.btnTrainNN.TabIndex = 5;
-            this.btnTrainNN.Text = "btnTrainNN";
+            this.btnTrainNN.Text = "Train";
             this.btnTrainNN.UseVisualStyleBackColor = true;
             this.btnTrainNN.Click += new System.EventHandler(this.btnTrainNN_Click);
             // 
             // btnTest
             // 
             this.btnTest.Enabled = false;
-            this.btnTest.Location = new System.Drawing.Point(0, 334);
+            this.btnTest.Location = new System.Drawing.Point(0, 354);
             this.btnTest.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(252, 23);
             this.btnTest.TabIndex = 6;
-            this.btnTest.Text = "btnTest";
+            this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
@@ -147,10 +149,12 @@
             this.flpMain.Controls.Add(this.flowLayoutPanel3);
             this.flpMain.Controls.Add(this.btnTrainNN);
             this.flpMain.Controls.Add(this.btnTest);
+            this.flpMain.Controls.Add(this.labelAve);
+            this.flpMain.Controls.Add(this.btnAve);
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpMain.Location = new System.Drawing.Point(9, 9);
             this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(252, 360);
+            this.flpMain.Size = new System.Drawing.Size(252, 422);
             this.flpMain.TabIndex = 7;
             // 
             // labelNNType
@@ -206,8 +210,9 @@
             this.textBoxInfo.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.textBoxInfo.Location = new System.Drawing.Point(0, 82);
             this.textBoxInfo.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.textBoxInfo.Multiline = true;
             this.textBoxInfo.Name = "textBoxInfo";
-            this.textBoxInfo.Size = new System.Drawing.Size(252, 20);
+            this.textBoxInfo.Size = new System.Drawing.Size(252, 40);
             this.textBoxInfo.TabIndex = 6;
             this.textBoxInfo.Text = "No BPNN created yet";
             // 
@@ -216,7 +221,7 @@
             this.flowLayoutPanel3.AutoSize = true;
             this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel2);
             this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel4);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 137);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 157);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(252, 162);
@@ -318,13 +323,36 @@
             this.labelOutput1.TabIndex = 5;
             this.labelOutput1.Text = "Output";
             // 
+            // btnAve
+            // 
+            this.btnAve.Location = new System.Drawing.Point(0, 396);
+            this.btnAve.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.btnAve.Name = "btnAve";
+            this.btnAve.Size = new System.Drawing.Size(252, 23);
+            this.btnAve.TabIndex = 12;
+            this.btnAve.Text = "Find Average";
+            this.btnAve.UseVisualStyleBackColor = true;
+            this.btnAve.Click += new System.EventHandler(this.btnAve_Click);
+            // 
+            // labelAve
+            // 
+            this.labelAve.AutoSize = true;
+            this.labelAve.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelAve.Location = new System.Drawing.Point(3, 380);
+            this.labelAve.Name = "labelAve";
+            this.labelAve.Size = new System.Drawing.Size(246, 13);
+            this.labelAve.TabIndex = 13;
+            this.labelAve.Text = "labelAve";
+            this.labelAve.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelAve.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(279, 377);
+            this.ClientSize = new System.Drawing.Size(279, 433);
             this.Controls.Add(this.flpMain);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(6);
@@ -367,6 +395,8 @@
         private System.Windows.Forms.Label labelInputCount;
         private System.Windows.Forms.NumericUpDown numericUpDownInputCount;
         private System.Windows.Forms.TextBox textBoxInfo;
+        private System.Windows.Forms.Button btnAve;
+        private System.Windows.Forms.Label labelAve;
     }
 }
 
